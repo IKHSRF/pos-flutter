@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "408670709238",
+    "firebase_url": "https://pos-flutter-58c8d.firebaseio.com",
+    "project_id": "pos-flutter-58c8d",
+    "storage_bucket": "pos-flutter-58c8d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:408670709238:android:2a4b1b2b2cede1bd76d3d7",
+        "android_client_info": {
+          "package_name": "com.example.pos_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "408670709238-pp4tr78f2vanpqd81flsg7pih26eg87m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAt9Anpq2WiuUjMJG45BCd-XapQr-uTdYs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "408670709238-pp4tr78f2vanpqd81flsg7pih26eg87m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
