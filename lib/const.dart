@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+const blueLightColor = Color(0xFFC7B8F5);
+const shadowColor = Color(0xFFE6E6E6);
+
 final List<String> managermenuItems = ['Home', 'Laporan', 'Pegawai'];
 final List<String> adminMenuItems = ['Home', 'Barang', 'Merek', 'Distributor'];
 final List<String> kasirMenuItems = ['Home', 'Transaksi'];
@@ -20,7 +23,6 @@ final List<IconData> kasirnMenuIcons = [
   Icons.home_outlined,
   Icons.payment,
 ];
-const blueLightColor = Color(0xFFC7B8F5);
 
 class SideBar {
   static double xoffset = 0;

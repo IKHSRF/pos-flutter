@@ -3,8 +3,15 @@ import 'package:get/get.dart';
 import 'package:pos_flutter/services/database_services.dart';
 import 'package:pos_flutter/widgets/field_title.dart';
 
-class CreateMerekPage extends StatelessWidget {
+class EditMerekPage extends StatelessWidget {
   final _formkey = GlobalKey<FormState>();
+  final namaMerek;
+  final docId;
+
+  EditMerekPage(
+    this.namaMerek,
+    this.docId,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +41,7 @@ class CreateMerekPage extends StatelessWidget {
                 ),
               ),
               FieldTitle(
-                title: 'Tambah Merek',
+                title: 'Edit Merek',
               ),
               SizedBox(height: 50.0),
               Form(
@@ -72,7 +79,7 @@ class CreateMerekPage extends StatelessWidget {
                       child: TextFormField(
                         decoration: InputDecoration(
                           border: InputBorder.none,
-                          hintText: 'Nama Merek',
+                          hintText: namaMerek,
                         ),
                         onSaved: (value) {
                           _namaMerek = value;
@@ -86,12 +93,8 @@ class CreateMerekPage extends StatelessWidget {
                 onTap: () async {
                   if (_formkey.currentState.validate()) {
                     _formkey.currentState.save();
-                    var result = await DatabaseServices.tambahMerek(_namaMerek);
-                    if (result != 'berhasil') {
-                      Get.snackbar('Oop ada yang error', result);
-                    } else {
-                      Get.offNamed('/merek');
-                    }
+                    DatabaseServices.updateMerek(docId, _namaMerek);
+                    Get.offNamed('/merek');
                   }
                 },
                 child: Container(
