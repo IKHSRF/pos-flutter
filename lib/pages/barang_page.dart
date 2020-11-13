@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:pos_flutter/const.dart';
-import 'package:pos_flutter/widgets/menu_items.dart';
+import 'package:pos_flutter/widgets/page_header.dart';
+import 'package:pos_flutter/widgets/search_widget.dart';
+import 'package:pos_flutter/widgets/side_bar.dart';
 
 class BarangPage extends StatefulWidget {
   @override
@@ -11,7 +12,7 @@ class BarangPage extends StatefulWidget {
 class _BarangState extends State<BarangPage> {
   void setSidebarState() {
     setState(() {
-      SideBar.xoffset = SideBar.sidebarOpen ? 265 : 60;
+      SideBar.xoffset = SideBar.sidebarOpen ? 265 : 0;
       SideBar.yoffset = SideBar.sidebarOpen ? 70 : 0;
       SideBar.pageScale = SideBar.sidebarOpen ? 0.8 : 1;
     });
@@ -19,7 +20,6 @@ class _BarangState extends State<BarangPage> {
 
   @override
   Widget build(BuildContext context) {
-    SideBar.selectedMenuItem = 1;
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -28,96 +28,7 @@ class _BarangState extends State<BarangPage> {
         child: Container(
           child: Stack(
             children: [
-              Container(
-                width: double.infinity,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Container(
-                      margin: EdgeInsets.only(top: 25.0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Color(0xFFB1F2B36),
-                        ),
-                        child: Row(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                SideBar.sidebarOpen = true;
-                                setSidebarState();
-                              },
-                              child: Container(
-                                padding: EdgeInsets.all(20.0),
-                                child: Icon(
-                                  Icons.search,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                            Container(
-                              child: Expanded(
-                                child: TextField(
-                                  decoration: InputDecoration(
-                                    border: InputBorder.none,
-                                    contentPadding: EdgeInsets.all(20.0),
-                                    hintText: 'Search...',
-                                    hintStyle: TextStyle(
-                                      color: Color(0xFFB666666),
-                                    ),
-                                  ),
-                                  //ini input style
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                  ),
-                                  readOnly: true,
-                                  onTap: () {
-                                    Get.snackbar(
-                                      'Mohon Maaf',
-                                      'Fitur search belum tersedia',
-                                      colorText: Colors.white,
-                                      backgroundColor: Colors.red,
-                                    );
-                                  },
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      child: ListView.builder(
-                        itemCount: menuItems.length,
-                        itemBuilder: (context, index) {
-                          return GestureDetector(
-                            onTap: () {
-                              SideBar.sidebarOpen = false;
-                              SideBar.selectedMenuItem = index;
-                              setSidebarState();
-                              SideBar.setPage();
-                            },
-                            child: MenuItems(
-                              menuIcons: menuIcons[index],
-                              menuItems: menuItems[index],
-                              selected: SideBar.selectedMenuItem,
-                              position: index,
-                            ),
-                          );
-                        },
-                      ),
-                    ),
-                    Container(
-                      child: MenuItems(
-                        menuIcons: Icons.logout,
-                        menuItems: 'Logout',
-                        selected: SideBar.selectedMenuItem,
-                        position: menuItems.length + 1,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+              SideBarMenu(),
               AnimatedContainer(
                 duration: Duration(milliseconds: 200),
                 curve: Curves.easeInOut,
@@ -132,37 +43,59 @@ class _BarangState extends State<BarangPage> {
                       ? BorderRadius.circular(20)
                       : BorderRadius.circular(0),
                 ),
-                child: Center(
-                  child: Column(
-                    children: [
-                      Container(
-                        margin: EdgeInsets.only(top: 24.0),
-                        height: 60.0,
-                        child: Row(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                SideBar.sidebarOpen = !SideBar.sidebarOpen;
-                                setSidebarState();
-                              },
-                              child: Container(
-                                color: Colors.white,
-                                padding: EdgeInsets.all(20.0),
-                                child: Icon(Icons.menu),
+                child: Stack(
+                  children: [
+                    PageHeader(),
+                    Column(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(top: 24.0),
+                          height: 60.0,
+                          child: Row(
+                            children: [
+                              GestureDetector(
+                                onTap: () {
+                                  SideBar.sidebarOpen = !SideBar.sidebarOpen;
+                                  setSidebarState();
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(20.0),
+                                  child: Icon(Icons.menu),
+                                ),
                               ),
-                            ),
-                            Container(
-                              padding: EdgeInsets.only(top: 20, bottom: 20.0),
-                              child: Text(
-                                'Barang Page',
-                                style: TextStyle(fontSize: 18.0),
-                              ),
-                            )
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
+                        Container(
+                          margin: EdgeInsets.symmetric(horizontal: 20.0),
+                          width: double.infinity,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Page Barang',
+                                style: TextStyle(
+                                  fontSize: 30.0,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                              ),
+                              SizedBox(height: 20.0),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width * .6,
+                                child: Text(
+                                  'Anda bisa melihat, mengedit dan menghapus data barang di invetaris ini',
+                                  style: TextStyle(
+                                    fontSize: 16.0,
+                                  ),
+                                ),
+                              ),
+                              SearchWidget(),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
             ],
