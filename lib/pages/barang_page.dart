@@ -3,12 +3,12 @@ import 'package:get/get.dart';
 import 'package:pos_flutter/const.dart';
 import 'package:pos_flutter/widgets/menu_items.dart';
 
-class HomePage extends StatefulWidget {
+class BarangPage extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _BarangState createState() => _BarangState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _BarangState extends State<BarangPage> {
   void setSidebarState() {
     setState(() {
       SideBar.xoffset = SideBar.sidebarOpen ? 265 : 60;
@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    SideBar.selectedMenuItem = 0;
+    SideBar.selectedMenuItem = 1;
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -154,7 +154,7 @@ class _HomePageState extends State<HomePage> {
                             Container(
                               padding: EdgeInsets.only(top: 20, bottom: 20.0),
                               child: Text(
-                                'Home Page',
+                                'Barang Page',
                                 style: TextStyle(fontSize: 18.0),
                               ),
                             )

@@ -103,7 +103,7 @@ class _LoginPageState extends State<LoginPage> {
                                   _formkey.currentState.save();
                                   dynamic result = await AuthServices.signIn(
                                       _userEmail.trim(), _userPassword.trim());
-                                  if (result != null) {
+                                  if (result != 'berhasil') {
                                     Get.snackbar(
                                       'Oops Ada yang error',
                                       result,

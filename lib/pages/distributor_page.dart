@@ -3,23 +3,21 @@ import 'package:get/get.dart';
 import 'package:pos_flutter/const.dart';
 import 'package:pos_flutter/widgets/menu_items.dart';
 
-class HomePage extends StatefulWidget {
+class DistributorPage extends StatefulWidget {
   @override
-  _HomePageState createState() => _HomePageState();
+  _DistributorState createState() => _DistributorState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _DistributorState extends State<DistributorPage> {
   void setSidebarState() {
     setState(() {
       SideBar.xoffset = SideBar.sidebarOpen ? 265 : 60;
-      SideBar.yoffset = SideBar.sidebarOpen ? 70 : 0;
-      SideBar.pageScale = SideBar.sidebarOpen ? 0.8 : 1;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    SideBar.selectedMenuItem = 0;
+    SideBar.selectedMenuItem = 3;
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -122,16 +120,10 @@ class _HomePageState extends State<HomePage> {
                 duration: Duration(milliseconds: 200),
                 curve: Curves.easeInOut,
                 transform: Matrix4.translationValues(
-                    SideBar.xoffset, SideBar.yoffset, 1.0)
-                  ..scale(SideBar.pageScale),
+                    SideBar.xoffset, SideBar.yoffset, 1.0),
                 width: double.infinity,
                 height: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: SideBar.sidebarOpen
-                      ? BorderRadius.circular(20)
-                      : BorderRadius.circular(0),
-                ),
+                color: Colors.white,
                 child: Center(
                   child: Column(
                     children: [
@@ -154,7 +146,7 @@ class _HomePageState extends State<HomePage> {
                             Container(
                               padding: EdgeInsets.only(top: 20, bottom: 20.0),
                               child: Text(
-                                'Home Page',
+                                'Distributor Page',
                                 style: TextStyle(fontSize: 18.0),
                               ),
                             )

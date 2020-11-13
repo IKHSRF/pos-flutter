@@ -13,7 +13,8 @@ class AuthServices {
       User user = (await _auth.createUserWithEmailAndPassword(
               email: email, password: password))
           .user;
-      return user.uid;
+      print(user.uid);
+      return 'berhasil';
     } catch (error) {
       print(error);
       return error.message;
@@ -25,7 +26,8 @@ class AuthServices {
       User user = (await _auth.signInWithEmailAndPassword(
               email: email, password: password))
           .user;
-      return user.uid;
+      print(user.uid);
+      return 'berhasil';
     } catch (error) {
       print(error);
       return error.message;

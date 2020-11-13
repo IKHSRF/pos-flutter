@@ -1,8 +1,14 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pos_flutter/pages/barang_page.dart';
+import 'package:pos_flutter/pages/distributor_page.dart';
 import 'package:pos_flutter/pages/home_page.dart';
 import 'package:pos_flutter/pages/login_page.dart';
+import 'package:pos_flutter/pages/merek_page.dart';
+import 'package:pos_flutter/services/auth_services.dart';
+import 'package:pos_flutter/services/user_validation.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,19 +19,39 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialRoute: '/',
-      getPages: [
-        GetPage(
-          name: '/home',
-          page: () => HomePage(),
-        ),
-        GetPage(
-          name: '/',
-          page: () => LoginPage(),
-        ),
-      ],
+    return StreamProvider.value(
+      value: AuthServices.firebaseUserStream,
+      child: GetMaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Inventaris',
+        initialRoute: '/',
+        getPages: [
+          GetPage(
+            name: '/',
+            page: () => UserValidation(),
+          ),
+          GetPage(
+            name: '/home',
+            page: () => HomePage(),
+          ),
+          GetPage(
+            name: '/login',
+            page: () => LoginPage(),
+          ),
+          GetPage(
+            name: '/barang',
+            page: () => BarangPage(),
+          ),
+          GetPage(
+            name: '/merek',
+            page: () => MerekPage(),
+          ),
+          GetPage(
+            name: '/distributor',
+            page: () => DistributorPage(),
+          ),
+        ],
+      ),
     );
   }
 }
