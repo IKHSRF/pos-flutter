@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 const blueLightColor = Color(0xFFC7B8F5);
 const shadowColor = Color(0xFFE6E6E6);
 
-final List<String> managermenuItems = ['Home', 'Laporan', 'Pegawai'];
+final List<String> managerMenuItems = ['Home', 'Laporan', 'Pegawai'];
 final List<String> adminMenuItems = ['Home', 'Barang', 'Merek', 'Distributor'];
 final List<String> kasirMenuItems = ['Home', 'Transaksi'];
 
@@ -19,7 +19,7 @@ final List<IconData> managerMenuIcons = [
   Icons.assessment_outlined,
   Icons.account_box_outlined,
 ];
-final List<IconData> kasirnMenuIcons = [
+final List<IconData> kasirMenuIcons = [
   Icons.home_outlined,
   Icons.payment,
 ];

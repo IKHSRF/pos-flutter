@@ -1,12 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pos_flutter/pages/barang_page.dart';
+import 'package:pos_flutter/pages/view/barang_page.dart';
 import 'package:pos_flutter/pages/create/create_merek_page.dart';
-import 'package:pos_flutter/pages/distributor_page.dart';
-import 'package:pos_flutter/pages/home_page.dart';
-import 'package:pos_flutter/pages/login_page.dart';
-import 'package:pos_flutter/pages/merek_page.dart';
+import 'package:pos_flutter/pages/view/distributor_page.dart';
+// import 'package:pos_flutter/pages/home_page.dart';
+import 'package:pos_flutter/pages/view/login_page.dart';
+import 'package:pos_flutter/pages/view/merek_page.dart';
 import 'package:pos_flutter/services/auth_services.dart';
 import 'package:pos_flutter/services/user_validation.dart';
 import 'package:provider/provider.dart';
@@ -31,10 +31,10 @@ class MyApp extends StatelessWidget {
             name: '/',
             page: () => UserValidation(),
           ),
-          GetPage(
-            name: '/home',
-            page: () => HomePage(),
-          ),
+          // GetPage(
+          //   name: '/home',
+          //   page: () => HomePage(),
+          // ),
           GetPage(
             name: '/login',
             page: () => LoginPage(),

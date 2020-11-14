@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:pos_flutter/const.dart';
+import 'package:pos_flutter/services/auth_services.dart';
 import 'package:pos_flutter/widgets/page_header.dart';
 import 'package:pos_flutter/widgets/search_widget.dart';
 import 'package:pos_flutter/widgets/side_bar.dart';
@@ -72,14 +74,25 @@ class _HomePageState extends State<HomePage> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Container(
-                                child: Text(
-                                  'Good Morning \nHave a Nice Day',
-                                  style: TextStyle(
-                                    fontSize: 30.0,
-                                    fontWeight: FontWeight.w900,
-                                  ),
+                              FutureBuilder(
+                                future: AuthServices.getUserRole(
+                                  FirebaseAuth.instance.currentUser.uid,
                                 ),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData) {
+                                    return Container(
+                                      child: Text(
+                                        'Good Morning \nHave a Nice Day \n${snapshot.data['nama']}',
+                                        style: TextStyle(
+                                          fontSize: 30.0,
+                                          fontWeight: FontWeight.w900,
+                                        ),
+                                      ),
+                                    );
+                                  } else {
+                                    return CircularProgressIndicator();
+                                  }
+                                },
                               ),
                               SearchWidget(),
                             ],
