@@ -97,9 +97,9 @@ class _SideBarMenuState extends State<SideBarMenu> {
                         SideBar.selectedMenuItem = index;
                         setSidebarState();
                         if (snapshot.data['role'] == 'Admin') {
-                          SideBar.setPageManager();
-                        } else if (snapshot.data['role'] == 'Manager') {
                           SideBar.setPageAdmin();
+                        } else if (snapshot.data['role'] == 'Manager') {
+                          SideBar.setPageManager();
                         } else {
                           SideBar.setPageKasir();
                         }

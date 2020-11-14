@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:pos_flutter/pages/view/barang_page.dart';
 import 'package:pos_flutter/pages/create/create_merek_page.dart';
 import 'package:pos_flutter/pages/view/distributor_page.dart';
-// import 'package:pos_flutter/pages/home_page.dart';
+import 'package:pos_flutter/pages/view/home_page.dart';
 import 'package:pos_flutter/pages/view/login_page.dart';
 import 'package:pos_flutter/pages/view/merek_page.dart';
 import 'package:pos_flutter/services/auth_services.dart';
@@ -31,10 +31,10 @@ class MyApp extends StatelessWidget {
             name: '/',
             page: () => UserValidation(),
           ),
-          // GetPage(
-          //   name: '/home',
-          //   page: () => HomePage(),
-          // ),
+          GetPage(
+            name: '/home',
+            page: () => HomePage(),
+          ),
           GetPage(
             name: '/login',
             page: () => LoginPage(),

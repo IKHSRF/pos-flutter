@@ -29,6 +29,11 @@ class _DistributorState extends State<DistributorPage> {
         stream:
             FirebaseFirestore.instance.collection('distributor').snapshots(),
         builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
           return Container(
             decoration: BoxDecoration(
               color: Color(0xFFB1F2B36),

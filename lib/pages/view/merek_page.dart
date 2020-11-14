@@ -29,6 +29,11 @@ class _MerekState extends State<MerekPage> {
       body: StreamBuilder(
         stream: FirebaseFirestore.instance.collection('merek').snapshots(),
         builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
           return Container(
             decoration: BoxDecoration(
               color: Color(0xFFB1F2B36),
