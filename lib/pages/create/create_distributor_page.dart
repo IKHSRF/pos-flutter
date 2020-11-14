@@ -8,9 +8,9 @@ class CreateDistributorPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var _namaDistributor = "";
-    var _alamat = "";
-    var _noTelp = "";
+    var _namaDistributor;
+    var _alamat;
+    var _noTelp;
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: Color(0xFFB1F2B36),

@@ -92,7 +92,13 @@ class EditDistributorPage extends StatelessWidget {
                                     border: InputBorder.none,
                                     hintText: namaDistributor),
                                 onSaved: (value) {
-                                  _namaDistributor = value;
+                                  if (value == null) {
+                                    _namaDistributor = namaDistributor;
+                                  } else if (value == "") {
+                                    _namaDistributor = namaDistributor;
+                                  } else {
+                                    _namaDistributor = value;
+                                  }
                                 },
                               ),
                             )
@@ -136,7 +142,13 @@ class EditDistributorPage extends StatelessWidget {
                                   hintText: alamat,
                                 ),
                                 onSaved: (value) {
-                                  _alamat = value;
+                                  if (value == null) {
+                                    _alamat = alamat;
+                                  } else if (value == "") {
+                                    _alamat = alamat;
+                                  } else {
+                                    _alamat = value;
+                                  }
                                 },
                               ),
                             )
@@ -180,7 +192,13 @@ class EditDistributorPage extends StatelessWidget {
                                   hintText: noTelp,
                                 ),
                                 onSaved: (value) {
-                                  _noTelp = value;
+                                  if (value == null) {
+                                    _noTelp = noTelp;
+                                  } else if (value == "") {
+                                    _noTelp = noTelp;
+                                  } else {
+                                    _noTelp = value;
+                                  }
                                 },
                               ),
                             )

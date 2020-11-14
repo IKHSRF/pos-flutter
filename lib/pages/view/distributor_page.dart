@@ -133,6 +133,9 @@ class _DistributorState extends State<DistributorPage> {
                                             LayoutBuilder(
                                               builder: (context, constraint) {
                                                 return Container(
+                                                  margin: EdgeInsets.only(
+                                                    bottom: 15.0,
+                                                  ),
                                                   width:
                                                       constraint.maxWidth - 10,
                                                   padding: EdgeInsets.all(16.0),

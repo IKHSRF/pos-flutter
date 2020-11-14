@@ -82,7 +82,13 @@ class EditMerekPage extends StatelessWidget {
                           hintText: namaMerek,
                         ),
                         onSaved: (value) {
-                          _namaMerek = value;
+                          if (value == null) {
+                            _namaMerek = namaMerek;
+                          } else if (value == "") {
+                            _namaMerek = namaMerek;
+                          } else {
+                            _namaMerek = value;
+                          }
                         },
                       ),
                     )

@@ -8,7 +8,7 @@ class CreateMerekPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var _namaMerek = "";
+    var _namaMerek;
     return Scaffold(
       backgroundColor: Color(0xFFB1F2B36),
       body: Container(

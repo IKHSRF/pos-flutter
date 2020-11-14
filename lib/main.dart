@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pos_flutter/pages/view/barang_page.dart';
-import 'package:pos_flutter/pages/create/create_merek_page.dart';
 import 'package:pos_flutter/pages/view/distributor_page.dart';
 import 'package:pos_flutter/pages/view/home_page.dart';
 import 'package:pos_flutter/pages/view/login_page.dart';
@@ -50,10 +49,6 @@ class MyApp extends StatelessWidget {
           GetPage(
             name: '/distributor',
             page: () => DistributorPage(),
-          ),
-          GetPage(
-            name: '/createMerek',
-            page: () => CreateMerekPage(),
           ),
         ],
       ),
