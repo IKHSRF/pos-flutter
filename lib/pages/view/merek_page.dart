@@ -45,16 +45,12 @@ class _MerekState extends State<MerekPage> {
                   AnimatedContainer(
                     duration: Duration(milliseconds: 200),
                     curve: Curves.easeInOut,
-                    transform: Matrix4.translationValues(
-                        SideBar.xoffset, SideBar.yoffset, 1.0)
-                      ..scale(SideBar.pageScale),
+                    transform: Matrix4.translationValues(SideBar.xoffset, SideBar.yoffset, 1.0)..scale(SideBar.pageScale),
                     width: double.infinity,
                     height: double.infinity,
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: SideBar.sidebarOpen
-                          ? BorderRadius.circular(20)
-                          : BorderRadius.circular(0),
+                      borderRadius: SideBar.sidebarOpen ? BorderRadius.circular(20) : BorderRadius.circular(0),
                     ),
                     child: Stack(
                       children: [
@@ -68,8 +64,7 @@ class _MerekState extends State<MerekPage> {
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      SideBar.sidebarOpen =
-                                          !SideBar.sidebarOpen;
+                                      SideBar.sidebarOpen = !SideBar.sidebarOpen;
                                       setSidebarState();
                                     },
                                     child: Container(
@@ -85,8 +80,7 @@ class _MerekState extends State<MerekPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 20.0),
+                                    margin: EdgeInsets.symmetric(horizontal: 20.0),
                                     child: Text(
                                       'Nama Merek',
                                       style: TextStyle(
@@ -98,8 +92,7 @@ class _MerekState extends State<MerekPage> {
                                   SizedBox(height: 20.0),
                                   Container(
                                     child: SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          .6,
+                                      width: MediaQuery.of(context).size.width * .6,
                                       child: Container(
                                         margin: EdgeInsets.symmetric(
                                           horizontal: 20.0,
@@ -114,20 +107,16 @@ class _MerekState extends State<MerekPage> {
                                     ),
                                   ),
                                   Container(
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 20.0),
+                                    margin: EdgeInsets.symmetric(horizontal: 20.0),
                                     child: SearchWidget(),
                                   ),
                                   SizedBox(height: 30.0),
                                   Expanded(
                                     child: ListView.builder(
                                       itemCount: snapshot.data.docs.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        DocumentSnapshot document =
-                                            snapshot.data.docs[index];
-                                        Map<String, dynamic> merek =
-                                            document.data();
+                                      itemBuilder: (BuildContext context, int index) {
+                                        DocumentSnapshot document = snapshot.data.docs[index];
+                                        Map<String, dynamic> merek = document.data();
                                         return Wrap(
                                           children: [
                                             LayoutBuilder(
@@ -136,14 +125,11 @@ class _MerekState extends State<MerekPage> {
                                                   margin: EdgeInsets.only(
                                                     bottom: 15.0,
                                                   ),
-                                                  width:
-                                                      constraint.maxWidth - 10,
+                                                  width: constraint.maxWidth - 10,
                                                   padding: EdgeInsets.all(16.0),
                                                   decoration: BoxDecoration(
                                                     color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            13),
+                                                    borderRadius: BorderRadius.circular(13),
                                                     boxShadow: [
                                                       BoxShadow(
                                                         offset: Offset(0, 17),
@@ -161,11 +147,9 @@ class _MerekState extends State<MerekPage> {
                                                           merek['nama_merek'],
                                                           style: TextStyle(
                                                             fontSize: 18.0,
-                                                            fontWeight:
-                                                                FontWeight.bold,
+                                                            fontWeight: FontWeight.bold,
                                                           ),
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
+                                                          overflow: TextOverflow.ellipsis,
                                                           maxLines: 2,
                                                         ),
                                                       ),
@@ -173,8 +157,7 @@ class _MerekState extends State<MerekPage> {
                                                         onTap: () {
                                                           Get.to(
                                                             EditMerekPage(
-                                                              merek[
-                                                                  'nama_merek'],
+                                                              merek['nama_merek'],
                                                               document.id,
                                                             ),
                                                           );
@@ -182,12 +165,9 @@ class _MerekState extends State<MerekPage> {
                                                         child: Container(
                                                           height: 43,
                                                           width: 42,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color:
-                                                                blueLightColor,
-                                                            shape:
-                                                                BoxShape.circle,
+                                                          decoration: BoxDecoration(
+                                                            color: blueLightColor,
+                                                            shape: BoxShape.circle,
                                                           ),
                                                           child: Icon(
                                                             Icons.edit_outlined,
@@ -200,37 +180,23 @@ class _MerekState extends State<MerekPage> {
                                                         onTap: () {
                                                           showDialog(
                                                             context: context,
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
+                                                            builder: (BuildContext context) {
                                                               return AlertDialog(
-                                                                title: Text(
-                                                                    'Are You Sure'),
-                                                                content: Text(
-                                                                    'Do you want to delete ${merek['nama_merek']}?'),
-                                                                actions: <
-                                                                    Widget>[
+                                                                title: Text('Are You Sure'),
+                                                                content: Text('Do you want to delete ${merek['nama_merek']}?'),
+                                                                actions: <Widget>[
                                                                   FlatButton(
-                                                                    child: Text(
-                                                                        'No'),
-                                                                    onPressed:
-                                                                        () {
-                                                                      Navigator.pop(
-                                                                          context);
+                                                                    child: Text('No'),
+                                                                    onPressed: () {
+                                                                      Navigator.pop(context);
                                                                     },
                                                                   ),
                                                                   FlatButton(
-                                                                    child: Text(
-                                                                        'Delete'),
-                                                                    onPressed:
-                                                                        () {
-                                                                      document
-                                                                          .reference
-                                                                          .delete();
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                      setState(
-                                                                          () {});
+                                                                    child: Text('Delete'),
+                                                                    onPressed: () {
+                                                                      document.reference.delete();
+                                                                      Navigator.pop(context);
+                                                                      setState(() {});
                                                                     },
                                                                   ),
                                                                 ],
@@ -241,16 +207,12 @@ class _MerekState extends State<MerekPage> {
                                                         child: Container(
                                                           height: 43,
                                                           width: 42,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color:
-                                                                blueLightColor,
-                                                            shape:
-                                                                BoxShape.circle,
+                                                          decoration: BoxDecoration(
+                                                            color: blueLightColor,
+                                                            shape: BoxShape.circle,
                                                           ),
                                                           child: Icon(
-                                                            Icons
-                                                                .delete_outline,
+                                                            Icons.delete_outline,
                                                             color: Colors.white,
                                                           ),
                                                         ),
@@ -267,11 +229,12 @@ class _MerekState extends State<MerekPage> {
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      Get.to(CreateMerekPage());
+                                      Get.to(
+                                        CreateMerekPage(),
+                                      );
                                     },
                                     child: Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 40.0),
+                                      padding: EdgeInsets.symmetric(horizontal: 40.0),
                                       width: double.infinity,
                                       height: 90,
                                       decoration: BoxDecoration(
@@ -297,14 +260,11 @@ class _MerekState extends State<MerekPage> {
                                             child: Icon(Icons.add),
                                           ),
                                           Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               Container(
-                                                margin:
-                                                    EdgeInsets.only(left: 20.0),
+                                                margin: EdgeInsets.only(left: 20.0),
                                                 child: Text(
                                                   'Tambah Merek',
                                                   style: TextStyle(
@@ -314,10 +274,8 @@ class _MerekState extends State<MerekPage> {
                                                 ),
                                               ),
                                               Container(
-                                                margin:
-                                                    EdgeInsets.only(left: 20.0),
-                                                child: Text(
-                                                    'Anda bisa menambahkan merek \nkedalam database'),
+                                                margin: EdgeInsets.only(left: 20.0),
+                                                child: Text('Anda bisa menambahkan merek \nkedalam database'),
                                               ),
                                             ],
                                           ),

@@ -45,16 +45,12 @@ class _BarangState extends State<BarangPage> {
                   AnimatedContainer(
                     duration: Duration(milliseconds: 200),
                     curve: Curves.easeInOut,
-                    transform: Matrix4.translationValues(
-                        SideBar.xoffset, SideBar.yoffset, 1.0)
-                      ..scale(SideBar.pageScale),
+                    transform: Matrix4.translationValues(SideBar.xoffset, SideBar.yoffset, 1.0)..scale(SideBar.pageScale),
                     width: double.infinity,
                     height: double.infinity,
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: SideBar.sidebarOpen
-                          ? BorderRadius.circular(20)
-                          : BorderRadius.circular(0),
+                      borderRadius: SideBar.sidebarOpen ? BorderRadius.circular(20) : BorderRadius.circular(0),
                     ),
                     child: Stack(
                       children: [
@@ -68,8 +64,7 @@ class _BarangState extends State<BarangPage> {
                                 children: [
                                   GestureDetector(
                                     onTap: () {
-                                      SideBar.sidebarOpen =
-                                          !SideBar.sidebarOpen;
+                                      SideBar.sidebarOpen = !SideBar.sidebarOpen;
                                       setSidebarState();
                                     },
                                     child: Container(
@@ -85,8 +80,7 @@ class _BarangState extends State<BarangPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Container(
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 20.0),
+                                    margin: EdgeInsets.symmetric(horizontal: 20.0),
                                     child: Text(
                                       'Barang',
                                       style: TextStyle(
@@ -98,8 +92,7 @@ class _BarangState extends State<BarangPage> {
                                   SizedBox(height: 20.0),
                                   Container(
                                     child: SizedBox(
-                                      width: MediaQuery.of(context).size.width *
-                                          .6,
+                                      width: MediaQuery.of(context).size.width * .6,
                                       child: Container(
                                         margin: EdgeInsets.symmetric(
                                           horizontal: 20.0,
@@ -114,20 +107,16 @@ class _BarangState extends State<BarangPage> {
                                     ),
                                   ),
                                   Container(
-                                    margin:
-                                        EdgeInsets.symmetric(horizontal: 20.0),
+                                    margin: EdgeInsets.symmetric(horizontal: 20.0),
                                     child: SearchWidget(),
                                   ),
                                   SizedBox(height: 30.0),
                                   Expanded(
                                     child: ListView.builder(
                                       itemCount: snapshot.data.docs.length,
-                                      itemBuilder:
-                                          (BuildContext context, int index) {
-                                        DocumentSnapshot document =
-                                            snapshot.data.docs[index];
-                                        Map<String, dynamic> barang =
-                                            document.data();
+                                      itemBuilder: (BuildContext context, int index) {
+                                        DocumentSnapshot document = snapshot.data.docs[index];
+                                        Map<String, dynamic> barang = document.data();
                                         return Wrap(
                                           children: [
                                             LayoutBuilder(
@@ -136,14 +125,11 @@ class _BarangState extends State<BarangPage> {
                                                   margin: EdgeInsets.only(
                                                     bottom: 15.0,
                                                   ),
-                                                  width:
-                                                      constraint.maxWidth - 10,
+                                                  width: constraint.maxWidth - 10,
                                                   padding: EdgeInsets.all(16.0),
                                                   decoration: BoxDecoration(
                                                     color: Colors.white,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            13),
+                                                    borderRadius: BorderRadius.circular(13),
                                                     boxShadow: [
                                                       BoxShadow(
                                                         offset: Offset(0, 17),
@@ -158,44 +144,31 @@ class _BarangState extends State<BarangPage> {
                                                       SizedBox(width: 10.0),
                                                       Expanded(
                                                         child: Column(
-                                                          crossAxisAlignment:
-                                                              CrossAxisAlignment
-                                                                  .start,
+                                                          crossAxisAlignment: CrossAxisAlignment.start,
                                                           children: [
                                                             Text(
-                                                              barang[
-                                                                  'nama_barang'],
+                                                              barang['nama_barang'],
                                                               style: TextStyle(
                                                                 fontSize: 18.0,
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold,
+                                                                fontWeight: FontWeight.bold,
                                                               ),
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
+                                                              overflow: TextOverflow.ellipsis,
                                                               maxLines: 2,
                                                             ),
                                                             Text(
-                                                              barang[
-                                                                  'nama_merek'],
+                                                              barang['nama_merek'],
                                                               style: TextStyle(
                                                                 fontSize: 14.0,
                                                               ),
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
+                                                              overflow: TextOverflow.ellipsis,
                                                               maxLines: 2,
                                                             ),
                                                             Text(
-                                                              barang[
-                                                                  'nama_distributor'],
+                                                              barang['nama_distributor'],
                                                               style: TextStyle(
                                                                 fontSize: 14.0,
                                                               ),
-                                                              overflow:
-                                                                  TextOverflow
-                                                                      .ellipsis,
+                                                              overflow: TextOverflow.ellipsis,
                                                               maxLines: 2,
                                                             ),
                                                           ],
@@ -203,34 +176,29 @@ class _BarangState extends State<BarangPage> {
                                                       ),
                                                       Expanded(
                                                         child: Text(
-                                                          barang[
-                                                              'tanggal_masuk'],
+                                                          barang['tanggal_masuk'],
                                                           style: TextStyle(
                                                             fontSize: 18.0,
-                                                            fontWeight:
-                                                                FontWeight.bold,
+                                                            fontWeight: FontWeight.bold,
                                                           ),
-                                                          overflow: TextOverflow
-                                                              .ellipsis,
+                                                          overflow: TextOverflow.ellipsis,
                                                           maxLines: 2,
                                                         ),
                                                       ),
                                                       GestureDetector(
                                                         onTap: () {
                                                           Get.to(
-                                                              DetailBarangPage(
-                                                            docId: document.id,
-                                                          ));
+                                                            DetailBarangPage(
+                                                              docId: document.id,
+                                                            ),
+                                                          );
                                                         },
                                                         child: Container(
                                                           height: 43,
                                                           width: 42,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color:
-                                                                blueLightColor,
-                                                            shape:
-                                                                BoxShape.circle,
+                                                          decoration: BoxDecoration(
+                                                            color: blueLightColor,
+                                                            shape: BoxShape.circle,
                                                           ),
                                                           child: Icon(
                                                             Icons.zoom_in_sharp,
@@ -245,20 +213,13 @@ class _BarangState extends State<BarangPage> {
                                                         onTap: () {
                                                           Get.to(
                                                             EditBarangPage(
-                                                              barang[
-                                                                  'nama_barang'],
-                                                              barang[
-                                                                  'nama_merek'],
-                                                              barang[
-                                                                  'nama_distributor'],
-                                                              barang[
-                                                                  'tanggal_masuk'],
-                                                              barang[
-                                                                  'harga_barang'],
-                                                              barang[
-                                                                  'stok_barang'],
-                                                              barang[
-                                                                  'keterangan'],
+                                                              barang['nama_barang'],
+                                                              barang['nama_merek'],
+                                                              barang['nama_distributor'],
+                                                              barang['tanggal_masuk'],
+                                                              barang['harga_barang'],
+                                                              barang['stok_barang'],
+                                                              barang['keterangan'],
                                                               document.id,
                                                             ),
                                                           );
@@ -266,12 +227,9 @@ class _BarangState extends State<BarangPage> {
                                                         child: Container(
                                                           height: 43,
                                                           width: 42,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color:
-                                                                blueLightColor,
-                                                            shape:
-                                                                BoxShape.circle,
+                                                          decoration: BoxDecoration(
+                                                            color: blueLightColor,
+                                                            shape: BoxShape.circle,
                                                           ),
                                                           child: Icon(
                                                             Icons.edit_outlined,
@@ -284,37 +242,23 @@ class _BarangState extends State<BarangPage> {
                                                         onTap: () {
                                                           showDialog(
                                                             context: context,
-                                                            builder:
-                                                                (BuildContext
-                                                                    context) {
+                                                            builder: (BuildContext context) {
                                                               return AlertDialog(
-                                                                title: Text(
-                                                                    'Are You Sure'),
-                                                                content: Text(
-                                                                    'Do you want to delete ${barang['nama_barang']}?'),
-                                                                actions: <
-                                                                    Widget>[
+                                                                title: Text('Are You Sure'),
+                                                                content: Text('Do you want to delete ${barang['nama_barang']}?'),
+                                                                actions: <Widget>[
                                                                   FlatButton(
-                                                                    child: Text(
-                                                                        'No'),
-                                                                    onPressed:
-                                                                        () {
-                                                                      Navigator.pop(
-                                                                          context);
+                                                                    child: Text('No'),
+                                                                    onPressed: () {
+                                                                      Navigator.pop(context);
                                                                     },
                                                                   ),
                                                                   FlatButton(
-                                                                    child: Text(
-                                                                        'Delete'),
-                                                                    onPressed:
-                                                                        () {
-                                                                      document
-                                                                          .reference
-                                                                          .delete();
-                                                                      Navigator.pop(
-                                                                          context);
-                                                                      setState(
-                                                                          () {});
+                                                                    child: Text('Delete'),
+                                                                    onPressed: () {
+                                                                      document.reference.delete();
+                                                                      Navigator.pop(context);
+                                                                      setState(() {});
                                                                     },
                                                                   ),
                                                                 ],
@@ -325,16 +269,12 @@ class _BarangState extends State<BarangPage> {
                                                         child: Container(
                                                           height: 43,
                                                           width: 42,
-                                                          decoration:
-                                                              BoxDecoration(
-                                                            color:
-                                                                blueLightColor,
-                                                            shape:
-                                                                BoxShape.circle,
+                                                          decoration: BoxDecoration(
+                                                            color: blueLightColor,
+                                                            shape: BoxShape.circle,
                                                           ),
                                                           child: Icon(
-                                                            Icons
-                                                                .delete_outline,
+                                                            Icons.delete_outline,
                                                             color: Colors.white,
                                                           ),
                                                         ),
@@ -351,11 +291,12 @@ class _BarangState extends State<BarangPage> {
                                   ),
                                   GestureDetector(
                                     onTap: () {
-                                      Get.to(CreateBarangPage());
+                                      Get.to(
+                                        CreateBarangPage(),
+                                      );
                                     },
                                     child: Container(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 40.0),
+                                      padding: EdgeInsets.symmetric(horizontal: 40.0),
                                       width: double.infinity,
                                       height: 90,
                                       decoration: BoxDecoration(
@@ -381,14 +322,11 @@ class _BarangState extends State<BarangPage> {
                                             child: Icon(Icons.add),
                                           ),
                                           Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
                                               Container(
-                                                margin:
-                                                    EdgeInsets.only(left: 20.0),
+                                                margin: EdgeInsets.only(left: 20.0),
                                                 child: Text(
                                                   'Tambah Barang',
                                                   style: TextStyle(
@@ -398,10 +336,8 @@ class _BarangState extends State<BarangPage> {
                                                 ),
                                               ),
                                               Container(
-                                                margin:
-                                                    EdgeInsets.only(left: 20.0),
-                                                child: Text(
-                                                    'Anda bisa menambahkan barang \nkedalam database'),
+                                                margin: EdgeInsets.only(left: 20.0),
+                                                child: Text('Anda bisa menambahkan barang \nkedalam database'),
                                               ),
                                             ],
                                           ),
