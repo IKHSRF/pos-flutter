@@ -3,9 +3,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class DatabaseServices {
   static FirebaseFirestore _firestore = FirebaseFirestore.instance;
   static CollectionReference _merek = _firestore.collection('merek');
-  static CollectionReference _distributor =
-      _firestore.collection('distributor');
+  static CollectionReference _distributor = _firestore.collection('distributor');
   static CollectionReference _barang = _firestore.collection('barang');
+  static CollectionReference _transaksi = _firestore.collection('transaksi');
 
   //Add section
   static Future<String> tambahMerek(String merek) async {
@@ -45,8 +45,8 @@ class DatabaseServices {
     String namaMerek,
     String namaDistributor,
     String tanggalMasuk,
-    String hargaBarang,
-    String stokBarang,
+    int hargaBarang,
+    int stokBarang,
     String keterangan,
   ) async {
     try {
@@ -58,6 +58,29 @@ class DatabaseServices {
         'harga_barang': hargaBarang,
         'stok_barang': stokBarang,
         'keterangan': keterangan,
+      });
+      print(result.toString());
+      return 'berhasil';
+    } catch (error) {
+      print(error.message);
+      return error.message;
+    }
+  }
+
+  static Future<String> tambahTransaksi(
+    String namaBarang,
+    String namaUser,
+    int jumlahBeli,
+    int totalHarga,
+    String tanggalBeli,
+  ) async {
+    try {
+      DocumentReference result = await _transaksi.add(<String, dynamic>{
+        'nama_barang': namaBarang,
+        'nama_user': namaUser,
+        'jumlah_beli': jumlahBeli,
+        'total_harga': totalHarga,
+        'tanggal_beli': tanggalBeli,
       });
       print(result.toString());
       return 'berhasil';
@@ -92,8 +115,8 @@ class DatabaseServices {
     String namaMerek,
     String namaDistributor,
     String tanggalMasuk,
-    String hargaBarang,
-    String stokBarang,
+    int hargaBarang,
+    int stokBarang,
     String keterangan,
     String id,
   ) async {
@@ -105,6 +128,23 @@ class DatabaseServices {
       'harga_barang': hargaBarang,
       'stok_barang': stokBarang,
       'keterangan': keterangan,
+    });
+  }
+
+  static Future<void> updateTransaksi(
+    String namaBarang,
+    String namaUser,
+    int jumlahBeli,
+    int totalHarga,
+    String tanggalBeli,
+    String id,
+  ) async {
+    await _barang.doc(id).set({
+      'nama_barang': namaBarang,
+      'nama_user': namaUser,
+      'jumlah_beli': jumlahBeli,
+      'total_harga': totalHarga,
+      'tanggal_beli': tanggalBeli,
     });
   }
 

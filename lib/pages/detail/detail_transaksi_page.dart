@@ -3,18 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pos_flutter/widgets/field_title.dart';
 
-class DetailBarangPage extends StatefulWidget {
+class DetailTransaksiPage extends StatefulWidget {
   final docId;
 
-  DetailBarangPage({
+  DetailTransaksiPage({
     this.docId,
   });
 
   @override
-  _DetailBarangPageState createState() => _DetailBarangPageState();
+  _DetailTransaksiPageState createState() => _DetailTransaksiPageState();
 }
 
-class _DetailBarangPageState extends State<DetailBarangPage> {
+class _DetailTransaksiPageState extends State<DetailTransaksiPage> {
   final _formkey = GlobalKey<FormState>();
 
   @override
@@ -37,7 +37,7 @@ class _DetailBarangPageState extends State<DetailBarangPage> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    Get.offAllNamed('/barang');
+                    Get.offAllNamed('/transaksi');
                   },
                   child: Container(
                     alignment: Alignment.centerLeft,
@@ -47,11 +47,11 @@ class _DetailBarangPageState extends State<DetailBarangPage> {
                   ),
                 ),
                 FieldTitle(
-                  title: 'Tambah Barang',
+                  title: 'Tambah Transaksi',
                 ),
                 SizedBox(height: 50.0),
                 FutureBuilder(
-                  future: FirebaseFirestore.instance.collection('barang').doc(widget.docId).get(),
+                  future: FirebaseFirestore.instance.collection('transaksi').doc(widget.docId).get(),
                   builder: (context, snapshot) {
                     if (!snapshot.hasData) {
                       return Center(
@@ -112,7 +112,7 @@ class _DetailBarangPageState extends State<DetailBarangPage> {
                                   child: Container(
                                     padding: EdgeInsets.only(left: 10.0),
                                     child: Text(
-                                      'Nama Merek',
+                                      'Nama User',
                                       style: TextStyle(
                                         fontSize: 20.0,
                                         fontWeight: FontWeight.bold,
@@ -138,7 +138,7 @@ class _DetailBarangPageState extends State<DetailBarangPage> {
                                   child: TextFormField(
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
-                                      hintText: snapshot.data['nama_merek'],
+                                      hintText: snapshot.data['nama_user'],
                                     ),
                                     readOnly: true,
                                   ),
@@ -154,46 +154,7 @@ class _DetailBarangPageState extends State<DetailBarangPage> {
                                   child: Container(
                                     padding: EdgeInsets.only(left: 10.0),
                                     child: Text(
-                                      'Nama Distributor',
-                                      style: TextStyle(
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width * .4,
-                                    height: 3.0,
-                                    decoration: BoxDecoration(color: Colors.green),
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 10.0, bottom: 40.0),
-                                  padding: EdgeInsets.symmetric(horizontal: 20.0),
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[200],
-                                    borderRadius: BorderRadius.circular(30.0),
-                                  ),
-                                  child: TextFormField(
-                                    decoration: InputDecoration(border: InputBorder.none, hintText: snapshot.data['nama_distributor']),
-                                    readOnly: true,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          Container(
-                            child: Column(
-                              children: [
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Container(
-                                    padding: EdgeInsets.only(left: 10.0),
-                                    child: Text(
-                                      'Tanggal Masuk',
+                                      'Jumlah Beli',
                                       style: TextStyle(
                                         fontSize: 20.0,
                                         fontWeight: FontWeight.bold,
@@ -219,7 +180,7 @@ class _DetailBarangPageState extends State<DetailBarangPage> {
                                   child: TextFormField(
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
-                                      hintText: snapshot.data['tanggal_masuk'],
+                                      hintText: snapshot.data['jumlah_beli'].toString(),
                                     ),
                                     readOnly: true,
                                   ),
@@ -235,7 +196,7 @@ class _DetailBarangPageState extends State<DetailBarangPage> {
                                   child: Container(
                                     padding: EdgeInsets.only(left: 10.0),
                                     child: Text(
-                                      'Harga Barang',
+                                      'Total Harga',
                                       style: TextStyle(
                                         fontSize: 20.0,
                                         fontWeight: FontWeight.bold,
@@ -262,7 +223,7 @@ class _DetailBarangPageState extends State<DetailBarangPage> {
                                     keyboardType: TextInputType.number,
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
-                                      hintText: snapshot.data['harga_barang'],
+                                      hintText: snapshot.data['total_harga'].toString(),
                                     ),
                                     readOnly: true,
                                   ),
@@ -278,50 +239,7 @@ class _DetailBarangPageState extends State<DetailBarangPage> {
                                   child: Container(
                                     padding: EdgeInsets.only(left: 10.0),
                                     child: Text(
-                                      'Stok Barang',
-                                      style: TextStyle(
-                                        fontSize: 20.0,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Container(
-                                    width: MediaQuery.of(context).size.width * .4,
-                                    height: 3.0,
-                                    decoration: BoxDecoration(color: Colors.green),
-                                  ),
-                                ),
-                                Container(
-                                  margin: EdgeInsets.only(top: 10.0, bottom: 40.0),
-                                  padding: EdgeInsets.symmetric(horizontal: 20.0),
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[200],
-                                    borderRadius: BorderRadius.circular(30.0),
-                                  ),
-                                  child: TextFormField(
-                                    keyboardType: TextInputType.number,
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: snapshot.data['harga_barang'],
-                                    ),
-                                    readOnly: true,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          Container(
-                            child: Column(
-                              children: [
-                                Align(
-                                  alignment: Alignment.centerLeft,
-                                  child: Container(
-                                    padding: EdgeInsets.only(left: 10.0),
-                                    child: Text(
-                                      'Keterangan',
+                                      'Tanggal Beli',
                                       style: TextStyle(
                                         fontSize: 20.0,
                                         fontWeight: FontWeight.bold,
@@ -347,7 +265,7 @@ class _DetailBarangPageState extends State<DetailBarangPage> {
                                   child: TextFormField(
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
-                                      hintText: snapshot.data['keterangan'],
+                                      hintText: snapshot.data['tanggal_beli'],
                                     ),
                                     readOnly: true,
                                   ),

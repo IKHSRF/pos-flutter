@@ -25,6 +25,11 @@ class _SideBarMenuState extends State<SideBarMenu> {
     return FutureBuilder(
       future: AuthServices.getUserRole(FirebaseAuth.instance.currentUser.uid),
       builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
         return Container(
           width: double.infinity,
           child: Column(
@@ -105,14 +110,14 @@ class _SideBarMenuState extends State<SideBarMenu> {
                         }
                       },
                       child: MenuItems(
-                        menuIcons: snapshot.data['role'] == 'Admin'
+                        menuIcons: (snapshot.data['role'] == 'Admin')
                             ? adminMenuIcons[index]
-                            : snapshot.data['role'] == 'Manager'
+                            : (snapshot.data['role'] == 'Manager')
                                 ? managerMenuIcons[index]
                                 : kasirMenuIcons[index],
-                        menuItems: snapshot.data['role'] == 'Admin'
+                        menuItems: (snapshot.data['role'] == 'Admin')
                             ? adminMenuItems[index]
-                            : snapshot.data['role'] == 'Manager'
+                            : (snapshot.data['role'] == 'Manager')
                                 ? managerMenuItems[index]
                                 : kasirMenuItems[index],
                         selected: SideBar.selectedMenuItem,
@@ -122,7 +127,13 @@ class _SideBarMenuState extends State<SideBarMenu> {
                   },
                 ),
               ),
-              LogOut(),
+              LogOut(
+                position: (snapshot.data['role'] == 'Admin')
+                    ? adminMenuItems
+                    : (snapshot.data['role'] == 'Manager')
+                        ? managerMenuItems
+                        : kasirMenuItems,
+              ),
             ],
           ),
         );

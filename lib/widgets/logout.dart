@@ -5,8 +5,10 @@ import 'package:pos_flutter/services/auth_services.dart';
 import 'package:pos_flutter/widgets/menu_items.dart';
 
 class LogOut extends StatelessWidget {
+  final position;
   const LogOut({
     Key key,
+    this.position,
   }) : super(key: key);
 
   @override
@@ -21,7 +23,7 @@ class LogOut extends StatelessWidget {
           menuIcons: Icons.logout,
           menuItems: 'Logout',
           selected: SideBar.selectedMenuItem,
-          position: adminMenuItems.length + 1,
+          position: position.length + 1,
         ),
       ),
     );

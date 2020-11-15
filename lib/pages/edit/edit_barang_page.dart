@@ -6,13 +6,13 @@ import 'package:pos_flutter/services/database_services.dart';
 import 'package:pos_flutter/widgets/field_title.dart';
 
 class EditBarangPage extends StatefulWidget {
-  final namaBarangEdit;
-  final namaMerekEdit;
-  final namaDistributorEdit;
-  final tanggalMasukEdit;
-  final hargaBarangEdit;
-  final stokBarangEdit;
-  final keteranganEdit;
+  final String namaBarangEdit;
+  final String namaMerekEdit;
+  final String namaDistributorEdit;
+  final String tanggalMasukEdit;
+  final int hargaBarangEdit;
+  final int stokBarangEdit;
+  final String keteranganEdit;
   final docId;
 
   EditBarangPage(
@@ -37,11 +37,11 @@ class _EditBarangPageState extends State<EditBarangPage> {
 
   @override
   Widget build(BuildContext context) {
-    var namaBarang = widget.namaBarangEdit;
-    var tanggalMasuk = widget.tanggalMasukEdit;
-    var hargaBarang = widget.hargaBarangEdit;
-    var stokBarang = widget.stokBarangEdit;
-    var keterangan = widget.keteranganEdit;
+    String namaBarang = widget.namaBarangEdit;
+    String tanggalMasuk = widget.tanggalMasukEdit;
+    int hargaBarang = widget.hargaBarangEdit;
+    int stokBarang = widget.stokBarangEdit;
+    String keterangan = widget.keteranganEdit;
     DateTime now = DateTime.now();
     var formatter = DateFormat('yy-MM-dd');
     String formattedDate = formatter.format(now);
@@ -155,15 +155,11 @@ class _EditBarangPageState extends State<EditBarangPage> {
                               ),
                             ),
                             StreamBuilder<QuerySnapshot>(
-                              stream: FirebaseFirestore.instance
-                                  .collection('merek')
-                                  .snapshots(),
+                              stream: FirebaseFirestore.instance.collection('merek').snapshots(),
                               builder: (context, snapshot) {
                                 return Container(
-                                  margin:
-                                      EdgeInsets.only(top: 10.0, bottom: 40.0),
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 20.0),
+                                  margin: EdgeInsets.only(top: 10.0, bottom: 40.0),
+                                  padding: EdgeInsets.symmetric(horizontal: 20.0),
                                   width: double.infinity,
                                   decoration: BoxDecoration(
                                     color: Colors.grey[200],
@@ -219,15 +215,11 @@ class _EditBarangPageState extends State<EditBarangPage> {
                               ),
                             ),
                             StreamBuilder<QuerySnapshot>(
-                              stream: FirebaseFirestore.instance
-                                  .collection('distributor')
-                                  .snapshots(),
+                              stream: FirebaseFirestore.instance.collection('distributor').snapshots(),
                               builder: (context, snapshot) {
                                 return Container(
-                                  margin:
-                                      EdgeInsets.only(top: 10.0, bottom: 40.0),
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 20.0),
+                                  margin: EdgeInsets.only(top: 10.0, bottom: 40.0),
+                                  padding: EdgeInsets.symmetric(horizontal: 20.0),
                                   width: double.infinity,
                                   decoration: BoxDecoration(
                                     color: Colors.grey[200],
@@ -244,8 +236,7 @@ class _EditBarangPageState extends State<EditBarangPage> {
                                     items: snapshot.data.docs.map(
                                       (DocumentSnapshot document) {
                                         return DropdownMenuItem<String>(
-                                          value: document
-                                              .data()['nama_distributor'],
+                                          value: document.data()['nama_distributor'],
                                           child: Text(
                                             document.data()['nama_distributor'],
                                           ),
@@ -345,7 +336,7 @@ class _EditBarangPageState extends State<EditBarangPage> {
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: widget.hargaBarangEdit,
+                                  hintText: widget.hargaBarangEdit.toString(),
                                 ),
                                 onSaved: (value) {
                                   if (value == null) {
@@ -353,7 +344,7 @@ class _EditBarangPageState extends State<EditBarangPage> {
                                   } else if (value == "") {
                                     hargaBarang = widget.hargaBarangEdit;
                                   } else {
-                                    hargaBarang = value;
+                                    hargaBarang = int.parse(value);
                                   }
                                 },
                               ),
@@ -396,7 +387,7 @@ class _EditBarangPageState extends State<EditBarangPage> {
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: widget.stokBarangEdit,
+                                  hintText: widget.stokBarangEdit.toString(),
                                 ),
                                 onSaved: (value) {
                                   if (value == null) {
@@ -404,7 +395,7 @@ class _EditBarangPageState extends State<EditBarangPage> {
                                   } else if (value == "") {
                                     stokBarang = widget.stokBarangEdit;
                                   } else {
-                                    stokBarang = value;
+                                    stokBarang = int.parse(value);
                                   }
                                 },
                               ),

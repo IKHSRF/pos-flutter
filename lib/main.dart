@@ -4,8 +4,11 @@ import 'package:get/get.dart';
 import 'package:pos_flutter/pages/view/barang_page.dart';
 import 'package:pos_flutter/pages/view/distributor_page.dart';
 import 'package:pos_flutter/pages/view/home_page.dart';
+import 'package:pos_flutter/pages/view/laporan_page.dart';
 import 'package:pos_flutter/pages/view/login_page.dart';
 import 'package:pos_flutter/pages/view/merek_page.dart';
+import 'package:pos_flutter/pages/view/pegawai_page.dart';
+import 'package:pos_flutter/pages/view/transaksi_page.dart';
 import 'package:pos_flutter/services/auth_services.dart';
 import 'package:pos_flutter/services/user_validation.dart';
 import 'package:provider/provider.dart';
@@ -49,6 +52,18 @@ class MyApp extends StatelessWidget {
           GetPage(
             name: '/distributor',
             page: () => DistributorPage(),
+          ),
+          GetPage(
+            name: '/laporan',
+            page: () => LaporanPage(),
+          ),
+          GetPage(
+            name: '/pegawai',
+            page: () => PegawaiPage(),
+          ),
+          GetPage(
+            name: '/transaksi',
+            page: () => TransaksiPage(),
           ),
         ],
       ),

@@ -34,16 +34,12 @@ class _HomePageState extends State<HomePage> {
               AnimatedContainer(
                 duration: Duration(milliseconds: 200),
                 curve: Curves.easeInOut,
-                transform: Matrix4.translationValues(
-                    SideBar.xoffset, SideBar.yoffset, 1.0)
-                  ..scale(SideBar.pageScale),
+                transform: Matrix4.translationValues(SideBar.xoffset, SideBar.yoffset, 1.0)..scale(SideBar.pageScale),
                 width: double.infinity,
                 height: double.infinity,
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: SideBar.sidebarOpen
-                      ? BorderRadius.circular(20)
-                      : BorderRadius.circular(0),
+                  borderRadius: SideBar.sidebarOpen ? BorderRadius.circular(20) : BorderRadius.circular(0),
                 ),
                 child: Stack(
                   children: [
@@ -79,19 +75,18 @@ class _HomePageState extends State<HomePage> {
                                   FirebaseAuth.instance.currentUser.uid,
                                 ),
                                 builder: (context, snapshot) {
-                                  if (snapshot.hasData) {
-                                    return Container(
-                                      child: Text(
-                                        'Good Morning \nHave a Nice Day \n${snapshot.data['nama']}',
-                                        style: TextStyle(
-                                          fontSize: 30.0,
-                                          fontWeight: FontWeight.w900,
-                                        ),
-                                      ),
-                                    );
-                                  } else {
+                                  if (!snapshot.hasData) {
                                     return CircularProgressIndicator();
                                   }
+                                  return Container(
+                                    child: Text(
+                                      'Good Morning \nHave a Nice Day \n${snapshot.data['nama']}',
+                                      style: TextStyle(
+                                        fontSize: 30.0,
+                                        fontWeight: FontWeight.w900,
+                                      ),
+                                    ),
+                                  );
                                 },
                               ),
                               SearchWidget(),

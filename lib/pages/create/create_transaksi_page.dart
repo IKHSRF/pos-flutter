@@ -1,23 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:pos_flutter/services/database_services.dart';
 import 'package:pos_flutter/widgets/field_title.dart';
 
-class CreateBarangPage extends StatefulWidget {
+class CreateTransaksiPage extends StatefulWidget {
   @override
-  _CreateBarangPageState createState() => _CreateBarangPageState();
+  _CreateTransaksiPageState createState() => _CreateTransaksiPageState();
 }
 
-class _CreateBarangPageState extends State<CreateBarangPage> {
-  String _namaDistributor;
-  String _namaBarang;
-  String _namaMerek;
-  String _tanggalMasuk;
-  int _hargaBarang;
-  int _stokBarang;
-  String _keterangan;
+class _CreateTransaksiPageState extends State<CreateTransaksiPage> {
+  String namaBarang;
+  String namaUser;
+  int jumlahBeli = 0;
+  int totalHarga = 0;
+  String tanggalBeli;
+  int hargaBarang = 0;
 
   final _formkey = GlobalKey<FormState>();
 
@@ -45,7 +45,7 @@ class _CreateBarangPageState extends State<CreateBarangPage> {
               children: [
                 GestureDetector(
                   onTap: () {
-                    Get.offAllNamed('/barang');
+                    Get.offAllNamed('/transaksi');
                   },
                   child: Container(
                     alignment: Alignment.centerLeft,
@@ -55,13 +55,68 @@ class _CreateBarangPageState extends State<CreateBarangPage> {
                   ),
                 ),
                 FieldTitle(
-                  title: 'Tambah Barang',
+                  title: 'Tambah Transaksi',
                 ),
                 SizedBox(height: 50.0),
                 Form(
                   key: _formkey,
                   child: Column(
                     children: [
+                      Container(
+                        child: Column(
+                          children: [
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Container(
+                                padding: EdgeInsets.only(left: 10.0),
+                                child: Text(
+                                  'Nama User',
+                                  style: TextStyle(
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * .4,
+                                height: 3.0,
+                                decoration: BoxDecoration(color: Colors.green),
+                              ),
+                            ),
+                            FutureBuilder(
+                              future: FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser.uid).get(),
+                              builder: (context, snapshot) {
+                                if (!snapshot.hasData) {
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+                                return Container(
+                                  margin: EdgeInsets.only(top: 10.0, bottom: 40.0),
+                                  padding: EdgeInsets.symmetric(horizontal: 20.0),
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[200],
+                                    borderRadius: BorderRadius.circular(30.0),
+                                  ),
+                                  child: TextFormField(
+                                    decoration: InputDecoration(
+                                      border: InputBorder.none,
+                                      hintText: snapshot.data['nama'],
+                                    ),
+                                    onSaved: (value) {
+                                      namaUser = snapshot.data['nama'];
+                                    },
+                                    readOnly: true,
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
                       Container(
                         child: Column(
                           children: [
@@ -86,6 +141,80 @@ class _CreateBarangPageState extends State<CreateBarangPage> {
                                 decoration: BoxDecoration(color: Colors.green),
                               ),
                             ),
+                            StreamBuilder<QuerySnapshot>(
+                              stream: FirebaseFirestore.instance.collection('barang').snapshots(),
+                              builder: (context, snapshot) {
+                                if (!snapshot.hasData) {
+                                  return Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+                                return Container(
+                                  margin: EdgeInsets.only(top: 10.0, bottom: 40.0),
+                                  padding: EdgeInsets.symmetric(horizontal: 20.0),
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: Colors.grey[200],
+                                    borderRadius: BorderRadius.circular(30.0),
+                                  ),
+                                  child: DropdownButton(
+                                    hint: Text('Nama Barang'),
+                                    value: namaBarang,
+                                    onChanged: (value) {
+                                      print(value);
+
+                                      setState(() {
+                                        namaBarang = value;
+                                      });
+                                      print(namaBarang);
+                                      print(hargaBarang);
+                                    },
+                                    items: snapshot.data.docs.map(
+                                      (DocumentSnapshot document) {
+                                        return DropdownMenuItem<String>(
+                                          value: document.data()['nama_barang'],
+                                          onTap: () {
+                                            setState(() {
+                                              hargaBarang = document.data()['harga_barang'];
+                                            });
+                                          },
+                                          child: Text(
+                                            document.data()['nama_barang'],
+                                          ),
+                                        );
+                                      },
+                                    ).toList(),
+                                  ),
+                                );
+                              },
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        child: Column(
+                          children: [
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Container(
+                                padding: EdgeInsets.only(left: 10.0),
+                                child: Text(
+                                  'Jumlah Beli',
+                                  style: TextStyle(
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * .4,
+                                height: 3.0,
+                                decoration: BoxDecoration(color: Colors.green),
+                              ),
+                            ),
                             Container(
                               margin: EdgeInsets.only(top: 10.0, bottom: 40.0),
                               padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -94,12 +223,18 @@ class _CreateBarangPageState extends State<CreateBarangPage> {
                                 borderRadius: BorderRadius.circular(30.0),
                               ),
                               child: TextFormField(
+                                keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: 'Nama Barang',
+                                  hintText: 'Jumlah Beli',
                                 ),
+                                onChanged: (value) {
+                                  setState(() {
+                                    jumlahBeli = int.parse(value);
+                                  });
+                                },
                                 onSaved: (value) {
-                                  _namaBarang = value;
+                                  jumlahBeli = int.parse(value);
                                 },
                               ),
                             )
@@ -114,7 +249,7 @@ class _CreateBarangPageState extends State<CreateBarangPage> {
                               child: Container(
                                 padding: EdgeInsets.only(left: 10.0),
                                 child: Text(
-                                  'Nama Merek',
+                                  'Total Harga',
                                   style: TextStyle(
                                     fontSize: 20.0,
                                     fontWeight: FontWeight.bold,
@@ -130,114 +265,30 @@ class _CreateBarangPageState extends State<CreateBarangPage> {
                                 decoration: BoxDecoration(color: Colors.green),
                               ),
                             ),
-                            StreamBuilder<QuerySnapshot>(
-                              stream: FirebaseFirestore.instance.collection('merek').snapshots(),
-                              builder: (context, snapshot) {
-                                if (!snapshot.hasData) {
-                                  return Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                }
-                                return Container(
-                                  margin: EdgeInsets.only(top: 10.0, bottom: 40.0),
-                                  padding: EdgeInsets.symmetric(horizontal: 20.0),
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[200],
-                                    borderRadius: BorderRadius.circular(30.0),
-                                  ),
-                                  child: DropdownButton(
-                                    hint: Text('Nama Merek'),
-                                    value: _namaMerek,
-                                    onChanged: (value) {
-                                      print(value);
-
-                                      setState(() {
-                                        _namaMerek = value;
-                                      });
-                                      print(_namaMerek);
-                                    },
-                                    items: snapshot.data.docs.map(
-                                      (DocumentSnapshot document) {
-                                        return DropdownMenuItem<String>(
-                                          value: document.data()['nama_merek'],
-                                          child: Text(
-                                            document.data()['nama_merek'],
-                                          ),
-                                        );
-                                      },
-                                    ).toList(),
-                                  ),
-                                );
-                              },
-                            )
-                          ],
-                        ),
-                      ),
-                      Container(
-                        child: Column(
-                          children: [
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Container(
-                                padding: EdgeInsets.only(left: 10.0),
-                                child: Text(
-                                  'Nama Distributor',
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                            Container(
+                              margin: EdgeInsets.only(top: 10.0, bottom: 40.0),
+                              padding: EdgeInsets.symmetric(horizontal: 20.0),
+                              decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
+                              child: TextFormField(
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: (jumlahBeli == 0) //kalo jumlah beli nya belum disi, yang tampil harga barang saja
+                                      ? hargaBarang.toString()
+                                      : (hargaBarang == 0) //kalo harga barang nya belum diisi, yang tampil jumlah belinya saha
+                                          ? jumlahBeli.toString()
+                                          : (jumlahBeli != 0 && hargaBarang != 0) //kalo dua duanya udah diisi, yang tampil hasil perkalian keduanya
+                                              ? (jumlahBeli * hargaBarang).toString()
+                                              : 'Total Harga', //kalo dua duanya belum disii, yang tampil total harga saat ini, yaitu 0
                                 ),
+                                readOnly: true,
+                                onSaved: (value) {
+                                  totalHarga = jumlahBeli * hargaBarang;
+                                },
                               ),
-                            ),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * .4,
-                                height: 3.0,
-                                decoration: BoxDecoration(color: Colors.green),
-                              ),
-                            ),
-                            StreamBuilder<QuerySnapshot>(
-                              stream: FirebaseFirestore.instance.collection('distributor').snapshots(),
-                              builder: (context, snapshot) {
-                                if (!snapshot.hasData) {
-                                  return Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                }
-                                return Container(
-                                  margin: EdgeInsets.only(top: 10.0, bottom: 40.0),
-                                  padding: EdgeInsets.symmetric(horizontal: 20.0),
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[200],
-                                    borderRadius: BorderRadius.circular(30.0),
-                                  ),
-                                  child: DropdownButton(
-                                    hint: Text('Nama Distributor'),
-                                    value: _namaDistributor,
-                                    onChanged: (value) {
-                                      print(value);
-
-                                      setState(() {
-                                        _namaDistributor = value;
-                                      });
-                                      print(_namaDistributor);
-                                    },
-                                    items: snapshot.data.docs.map(
-                                      (DocumentSnapshot document) {
-                                        return DropdownMenuItem<String>(
-                                          value: document.data()['nama_distributor'],
-                                          child: Text(
-                                            document.data()['nama_distributor'],
-                                          ),
-                                        );
-                                      },
-                                    ).toList(),
-                                  ),
-                                );
-                              },
                             )
                           ],
                         ),
@@ -250,7 +301,7 @@ class _CreateBarangPageState extends State<CreateBarangPage> {
                               child: Container(
                                 padding: EdgeInsets.only(left: 10.0),
                                 child: Text(
-                                  'Tanggal Masuk',
+                                  'Tanggal Beli',
                                   style: TextStyle(
                                     fontSize: 20.0,
                                     fontWeight: FontWeight.bold,
@@ -280,141 +331,7 @@ class _CreateBarangPageState extends State<CreateBarangPage> {
                                 ),
                                 readOnly: true,
                                 onSaved: (value) {
-                                  _tanggalMasuk = formattedDate;
-                                },
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      Container(
-                        child: Column(
-                          children: [
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Container(
-                                padding: EdgeInsets.only(left: 10.0),
-                                child: Text(
-                                  'Harga Barang',
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * .4,
-                                height: 3.0,
-                                decoration: BoxDecoration(color: Colors.green),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(top: 10.0, bottom: 40.0),
-                              padding: EdgeInsets.symmetric(horizontal: 20.0),
-                              decoration: BoxDecoration(
-                                color: Colors.grey[200],
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
-                              child: TextFormField(
-                                keyboardType: TextInputType.number,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: 'Harga Barang',
-                                ),
-                                onSaved: (value) {
-                                  _hargaBarang = int.parse(value);
-                                },
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      Container(
-                        child: Column(
-                          children: [
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Container(
-                                padding: EdgeInsets.only(left: 10.0),
-                                child: Text(
-                                  'Stok Barang',
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * .4,
-                                height: 3.0,
-                                decoration: BoxDecoration(color: Colors.green),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(top: 10.0, bottom: 40.0),
-                              padding: EdgeInsets.symmetric(horizontal: 20.0),
-                              decoration: BoxDecoration(
-                                color: Colors.grey[200],
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
-                              child: TextFormField(
-                                keyboardType: TextInputType.number,
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: 'Stok Barang',
-                                ),
-                                onSaved: (value) {
-                                  _stokBarang = int.parse(value);
-                                },
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      Container(
-                        child: Column(
-                          children: [
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Container(
-                                padding: EdgeInsets.only(left: 10.0),
-                                child: Text(
-                                  'Keterangan',
-                                  style: TextStyle(
-                                    fontSize: 20.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * .4,
-                                height: 3.0,
-                                decoration: BoxDecoration(color: Colors.green),
-                              ),
-                            ),
-                            Container(
-                              margin: EdgeInsets.only(top: 10.0, bottom: 40.0),
-                              padding: EdgeInsets.symmetric(horizontal: 20.0),
-                              decoration: BoxDecoration(
-                                color: Colors.grey[200],
-                                borderRadius: BorderRadius.circular(30.0),
-                              ),
-                              child: TextFormField(
-                                decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  hintText: 'Keterangan',
-                                ),
-                                onSaved: (value) {
-                                  _keterangan = value;
+                                  tanggalBeli = formattedDate;
                                 },
                               ),
                             )
@@ -428,19 +345,17 @@ class _CreateBarangPageState extends State<CreateBarangPage> {
                   onTap: () async {
                     if (_formkey.currentState.validate()) {
                       _formkey.currentState.save();
-                      var result = await DatabaseServices.tambahBarang(
-                        _namaBarang,
-                        _namaMerek,
-                        _namaDistributor,
-                        _tanggalMasuk,
-                        _hargaBarang,
-                        _stokBarang,
-                        _keterangan,
+                      var result = await DatabaseServices.tambahTransaksi(
+                        namaBarang,
+                        namaUser,
+                        jumlahBeli,
+                        totalHarga,
+                        tanggalBeli,
                       );
                       if (result != 'berhasil') {
                         Get.snackbar('Oop ada yang error', result);
                       } else {
-                        Get.offNamed('/barang');
+                        Get.offNamed('/transaksi');
                       }
                     }
                   },
