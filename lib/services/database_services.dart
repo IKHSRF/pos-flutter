@@ -70,8 +70,8 @@ class DatabaseServices {
   static Future<String> tambahTransaksi(
     String namaBarang,
     String namaUser,
-    int jumlahBeli,
-    int totalHarga,
+    num jumlahBeli,
+    num totalHarga,
     String tanggalBeli,
   ) async {
     try {
@@ -134,12 +134,12 @@ class DatabaseServices {
   static Future<void> updateTransaksi(
     String namaBarang,
     String namaUser,
-    int jumlahBeli,
-    int totalHarga,
+    num jumlahBeli,
+    num totalHarga,
     String tanggalBeli,
     String id,
   ) async {
-    await _barang.doc(id).set({
+    await _transaksi.doc(id).set({
       'nama_barang': namaBarang,
       'nama_user': namaUser,
       'jumlah_beli': jumlahBeli,

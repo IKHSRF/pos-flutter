@@ -1,34 +1,43 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:pos_flutter/services/database_services.dart';
 import 'package:pos_flutter/widgets/field_title.dart';
 
-class CreateTransaksiPage extends StatefulWidget {
+class EditTransaksiPage extends StatefulWidget {
+  final String namaBarangEdit;
+  final String namaUserEdit;
+  final num jumlahBeliEdit;
+  final num totalHargaEdit;
+  final String tanggalBeliEdit;
+  final docId;
+
+  EditTransaksiPage(
+    this.namaBarangEdit,
+    this.namaUserEdit,
+    this.jumlahBeliEdit,
+    this.totalHargaEdit,
+    this.tanggalBeliEdit,
+    this.docId,
+  );
+
   @override
-  _CreateTransaksiPageState createState() => _CreateTransaksiPageState();
+  _EditTransaksiPageState createState() => _EditTransaksiPageState();
 }
 
-class _CreateTransaksiPageState extends State<CreateTransaksiPage> {
+class _EditTransaksiPageState extends State<EditTransaksiPage> {
   String namaBarang;
-  String namaUser;
+  num hargaBarang = 0;
   num jumlahBeli = 0;
   num totalHarga = 0;
-  String tanggalBeli;
-  num hargaBarang = 0;
-
   final _formkey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    DateTime now = DateTime.now();
-    var formatter = DateFormat('yy-MM-dd');
-    String formattedDate = formatter.format(now);
+    String namaUser = widget.namaUserEdit;
+    String tanggalBeli = widget.tanggalBeliEdit;
 
     return Scaffold(
-      resizeToAvoidBottomInset: true,
       backgroundColor: Color(0xFFB1F2B36),
       body: SingleChildScrollView(
         child: Container(
@@ -55,7 +64,7 @@ class _CreateTransaksiPageState extends State<CreateTransaksiPage> {
                   ),
                 ),
                 FieldTitle(
-                  title: 'Tambah Transaksi',
+                  title: 'Edit Transaksi',
                 ),
                 SizedBox(height: 50.0),
                 Form(
@@ -86,34 +95,24 @@ class _CreateTransaksiPageState extends State<CreateTransaksiPage> {
                                 decoration: BoxDecoration(color: Colors.green),
                               ),
                             ),
-                            FutureBuilder(
-                              future: FirebaseFirestore.instance.collection('users').doc(FirebaseAuth.instance.currentUser.uid).get(),
-                              builder: (context, snapshot) {
-                                if (!snapshot.hasData) {
-                                  return Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                }
-                                return Container(
-                                  margin: EdgeInsets.only(top: 10.0, bottom: 40.0),
-                                  padding: EdgeInsets.symmetric(horizontal: 20.0),
-                                  decoration: BoxDecoration(
-                                    color: Colors.grey[200],
-                                    borderRadius: BorderRadius.circular(30.0),
-                                  ),
-                                  child: TextFormField(
-                                    decoration: InputDecoration(
-                                      border: InputBorder.none,
-                                      hintText: snapshot.data['nama'],
-                                    ),
-                                    onSaved: (value) {
-                                      namaUser = snapshot.data['nama'];
-                                    },
-                                    readOnly: true,
-                                  ),
-                                );
-                              },
-                            ),
+                            Container(
+                              margin: EdgeInsets.only(top: 10.0, bottom: 40.0),
+                              padding: EdgeInsets.symmetric(horizontal: 20.0),
+                              decoration: BoxDecoration(
+                                color: Colors.grey[200],
+                                borderRadius: BorderRadius.circular(30.0),
+                              ),
+                              child: TextFormField(
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: widget.namaUserEdit,
+                                ),
+                                readOnly: true,
+                                onSaved: (value) {
+                                  namaUser = widget.namaUserEdit;
+                                },
+                              ),
+                            )
                           ],
                         ),
                       ),
@@ -158,26 +157,24 @@ class _CreateTransaksiPageState extends State<CreateTransaksiPage> {
                                     borderRadius: BorderRadius.circular(30.0),
                                   ),
                                   child: DropdownButton(
-                                    hint: Text('Nama Barang'),
+                                    hint: Text(widget.namaBarangEdit),
                                     value: namaBarang,
                                     onChanged: (value) {
-                                      print(value);
-
                                       setState(() {
                                         namaBarang = value;
                                       });
-                                      print(namaBarang);
                                       print(hargaBarang);
                                     },
                                     items: snapshot.data.docs.map(
                                       (DocumentSnapshot document) {
                                         return DropdownMenuItem<String>(
-                                          value: document.data()['nama_barang'],
                                           onTap: () {
                                             setState(() {
                                               hargaBarang = document.data()['harga_barang'];
+                                              print(hargaBarang);
                                             });
                                           },
+                                          value: document.data()['nama_barang'],
                                           child: Text(
                                             document.data()['nama_barang'],
                                           ),
@@ -226,15 +223,19 @@ class _CreateTransaksiPageState extends State<CreateTransaksiPage> {
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: 'Jumlah Beli',
+                                  hintText: widget.jumlahBeliEdit.toString(),
                                 ),
                                 onChanged: (value) {
                                   setState(() {
-                                    jumlahBeli = int.parse(value);
+                                    jumlahBeli = num.parse(value);
                                   });
                                 },
                                 onSaved: (value) {
-                                  jumlahBeli = int.parse(value);
+                                  if (value == "" || value == null) {
+                                    jumlahBeli = widget.jumlahBeliEdit;
+                                  } else {
+                                    jumlahBeli = num.parse(value);
+                                  }
                                 },
                               ),
                             )
@@ -276,17 +277,25 @@ class _CreateTransaksiPageState extends State<CreateTransaksiPage> {
                                 keyboardType: TextInputType.number,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: (jumlahBeli == 0) //kalo jumlah beli nya belum disi, yang tampil harga barang saja
-                                      ? hargaBarang.toString()
-                                      : (hargaBarang == 0) //kalo harga barang nya belum diisi, yang tampil jumlah belinya saha
-                                          ? jumlahBeli.toString()
-                                          : (jumlahBeli != 0 && hargaBarang != 0) //kalo dua duanya udah diisi, yang tampil hasil perkalian keduanya
-                                              ? (jumlahBeli * hargaBarang).toString()
-                                              : 'Total Harga', //kalo dua duanya belum disii, yang tampil total harga saat ini, yaitu 0
+                                  hintText: (jumlahBeli == 0 && hargaBarang != 0)
+                                      ? (widget.jumlahBeliEdit * hargaBarang).toString()
+                                      : (hargaBarang == 0 && jumlahBeli != 0)
+                                          ? (jumlahBeli * (widget.totalHargaEdit / widget.jumlahBeliEdit)).toString()
+                                          : (jumlahBeli == 0 && hargaBarang == 0)
+                                              ? (widget.totalHargaEdit).toString()
+                                              : (jumlahBeli * hargaBarang).toString(),
                                 ),
                                 readOnly: true,
                                 onSaved: (value) {
-                                  totalHarga = jumlahBeli * hargaBarang;
+                                  if (jumlahBeli == 0) {
+                                    totalHarga = widget.jumlahBeliEdit * hargaBarang;
+                                  } else if (hargaBarang == 0) {
+                                    totalHarga = jumlahBeli * (widget.totalHargaEdit / widget.jumlahBeliEdit);
+                                  } else if (hargaBarang == 0 && jumlahBeli == 0) {
+                                    totalHarga = widget.totalHargaEdit;
+                                  } else {
+                                    totalHarga = jumlahBeli * hargaBarang;
+                                  }
                                 },
                               ),
                             )
@@ -327,11 +336,11 @@ class _CreateTransaksiPageState extends State<CreateTransaksiPage> {
                               child: TextFormField(
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: formattedDate,
+                                  hintText: widget.tanggalBeliEdit,
                                 ),
                                 readOnly: true,
                                 onSaved: (value) {
-                                  tanggalBeli = formattedDate;
+                                  tanggalBeli = widget.tanggalBeliEdit;
                                 },
                               ),
                             )
@@ -345,18 +354,18 @@ class _CreateTransaksiPageState extends State<CreateTransaksiPage> {
                   onTap: () async {
                     if (_formkey.currentState.validate()) {
                       _formkey.currentState.save();
-                      var result = await DatabaseServices.tambahTransaksi(
+                      if (namaBarang == null) {
+                        namaBarang = widget.namaBarangEdit;
+                      }
+                      DatabaseServices.updateTransaksi(
                         namaBarang,
                         namaUser,
                         jumlahBeli,
                         totalHarga,
                         tanggalBeli,
+                        widget.docId,
                       );
-                      if (result != 'berhasil') {
-                        Get.snackbar('Oop ada yang error', result);
-                      } else {
-                        Get.offNamed('/transaksi');
-                      }
+                      Get.offNamed('/transaksi');
                     }
                   },
                   child: Container(

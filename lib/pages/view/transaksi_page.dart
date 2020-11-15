@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:pos_flutter/const.dart';
 import 'package:pos_flutter/pages/create/create_transaksi_page.dart';
 import 'package:pos_flutter/pages/detail/detail_transaksi_page.dart';
+import 'package:pos_flutter/pages/edit/edit_transaksi_page.dart';
 import 'package:pos_flutter/widgets/page_header.dart';
 import 'package:pos_flutter/widgets/search_widget.dart';
 import 'package:pos_flutter/widgets/side_bar.dart';
@@ -202,18 +203,16 @@ class _TransaksiState extends State<TransaksiPage> {
                                                       ),
                                                       GestureDetector(
                                                         onTap: () {
-                                                          // Get.to(
-                                                          //   EditBarangPage(
-                                                          //     laporan['nama_barang'],
-                                                          //     laporan['nama_merek'],
-                                                          //     laporan['nama_distributor'],
-                                                          //     laporan['tanggal_masuk'],
-                                                          //     laporan['harga_barang'],
-                                                          //     laporan['stok_barang'],
-                                                          //     laporan['keterangan'],
-                                                          //     document.id,
-                                                          //   ),
-                                                          // );
+                                                          Get.to(
+                                                            EditTransaksiPage(
+                                                              transaksi['nama_barang'],
+                                                              transaksi['nama_user'],
+                                                              transaksi['jumlah_beli'],
+                                                              transaksi['total_harga'],
+                                                              transaksi['tanggal_beli'],
+                                                              document.id,
+                                                            ),
+                                                          );
                                                         },
                                                         child: Container(
                                                           height: 43,
